@@ -61,7 +61,8 @@ function eth(eth_add, chatId) {
 }
 bot.on('message', (message) => {
     const query = message.text;
-    console.log(message.from.first_name)
+    console.log(message.text);
+    console.log(message.from.first_name);
     if (query === '/start') {
         const inlineKeyboard = {
             inline_keyboard: [[
