@@ -20,6 +20,7 @@ bot.onText(/\/help/, function (msg, match) {
             }
         ]]
     }
+    bot.sendChatAction(cid, 'typing')
     bot.sendPhoto(cid, 'media/DP.png', { caption: `'1' to know about crypto\n\n'2' to know about DeFi\n\n'3' to know about CryptoWallets\n\n'4' to know about DAOs\n\n'/help' to get help\n\n'/price' to get price of Eth and Sol tokens`, reply_markup: inlineKeyboard })
     return;
 })
@@ -60,6 +61,7 @@ function eth(eth_add, chatId) {
     flag = true
 }
 bot.on('message', (message) => {
+    bot.sendChatAction(message.from.id, 'typing')
     const query = message.text;
     console.log(message.text);
     console.log(message.from.first_name);
