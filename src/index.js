@@ -3,6 +3,7 @@ import TelegramBot from 'node-telegram-bot-api';
 import * as dotenv from 'dotenv'
 dotenv.config()
 const TOKEN = process.env.API_KEY //botfather api
+console.log("OK")
 import fetch from 'node-fetch';
 let flag = true;
 const bot = new TelegramBot(TOKEN, { polling: true })
