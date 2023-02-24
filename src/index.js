@@ -22,10 +22,9 @@ bot.onText(/\/help/, function (msg, match) {
         ]]
     }
     bot.sendChatAction(cid, 'typing')
-    //make below run async
     bot.sendPhoto(cid, 'media/DP.png', {
-        caption: `'1' to know about crypto\n\n'2' to know about DeFi\n\n'3' to know about CryptoWallets\n\n'4' to know about DAOs\n\n'/help' to get help\n\n'/price' to get price of Eth and Sol tokens`
-        , reply_markup: inlineKeyboard
+        caption: `'1' to know about crypto\n\n'2' to know about DeFi\n\n'3' to know about CryptoWallets\n\n'4' to know about DAOs\n\n'/help' to get help\n\n'/price' to get price of Eth and Sol tokens`,
+        reply_markup: inlineKeyboard
     })
 })
 async function sol(sol_add, chatId) {
