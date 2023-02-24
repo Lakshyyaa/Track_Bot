@@ -22,45 +22,46 @@ bot.onText(/\/help/, function (msg, match) {
         ]]
     }
     bot.sendChatAction(cid, 'typing')
-    bot.sendPhoto(cid, 'media/DP.png', { caption: `'1' to know about crypto\n\n'2' to know about DeFi\n\n'3' to know about CryptoWallets\n\n'4' to know about DAOs\n\n'/help' to get help\n\n'/price' to get price of Eth and Sol tokens`, reply_markup: inlineKeyboard })
-    return;
+    //make below run async
+    bot.sendPhoto(cid, 'media/DP.png', {
+        caption: `'1' to know about crypto\n\n'2' to know about DeFi\n\n'3' to know about CryptoWallets\n\n'4' to know about DAOs\n\n'/help' to get help\n\n'/price' to get price of Eth and Sol tokens`
+        , reply_markup: inlineKeyboard
+    })
 })
-function sol(sol_add, chatId) {
-    fetch('https://solana-gateway.moralis.io/token/mainnet/' + sol_add + '/price', {
+async function sol(sol_add, chatId) {
+    const x = await fetch('https://solana-gateway.moralis.io/token/mainnet/' + sol_add + '/price', {
         method: 'GET',
         headers: {
             'x-api-key': process.env.SOL_API //sol token api key
         }
     })
-        .then(x => x.json())
-        .then(x => {
-            console.log(x.usdPrice);
-            if (x.usdPrice === undefined) {
-                bot.sendMessage(chatId, `Invalid address, try using '/price' again`);
-                return;
-            }
-            bot.sendMessage(chatId, `Price is: ${x.usdPrice} USD`);
-        })
+    const y = await x.json()
+    const z = await y.usdPrice;
+    if (z === undefined) {
+        bot.sendMessage(chatId, `Invalid address, try using '/price' again`);
+        return;
+    }
+    bot.sendMessage(chatId, `Price is: ${z} USD`);
     flag = true
 }
-function eth(eth_add, chatId) {
-    fetch('https://deep-index.moralis.io/api/v2/erc20/' + eth_add + '/price?chain=eth', {
+
+async function eth(eth_add, chatId) {
+    const x = await fetch('https://deep-index.moralis.io/api/v2/erc20/' + eth_add + '/price?chain=eth', {
         method: 'GET',
         headers: {
             'x-api-key': process.env.ETH_API // eth token api key
         }
     })
-        .then(x => x.json())
-        .then(x => {
-            console.log(x.usdPrice);
-            if (x.usdPrice === undefined) {
-                bot.sendMessage(chatId, `Invalid address, try using '/price' again`);
-                return;
-            }
-            bot.sendMessage(chatId, `Price is: ${x.usdPrice} USD`);
-        })
+    const y = await x.json()
+    const z = await y.usdPrice;
+    if (z === undefined) {
+        bot.sendMessage(chatId, `Invalid address, try using '/price' again`);
+        return;
+    }
+    bot.sendMessage(chatId, `Price is: ${z} USD`);
     flag = true
 }
+
 bot.on('message', (message) => {
     bot.sendChatAction(message.from.id, 'typing')
     const query = message.text;
@@ -168,18 +169,16 @@ bot.on('message', (message) => {
     }
 })
 
-
 bot.on('callback_query', (callbackQuery) => {
     const action = callbackQuery.data;
     const chatId = callbackQuery.message.chat.id;
-
     if (action === 'sol_token') {
         flag = false;
         bot.sendMessage(chatId, '<strong>Reply to this message with your SPL token address</strong>', { parse_mode: 'HTML' }).then((sended) => {
             const messageId = sended.message_id;
             bot.onReplyToMessage(chatId, messageId, (message) => {
-                bot.sendChatAction(chatId, 'typing');
                 sol(message.text, chatId)
+                bot.sendChatAction(chatId, 'typing');
             });
         });
     }
@@ -188,12 +187,12 @@ bot.on('callback_query', (callbackQuery) => {
         bot.sendMessage(chatId, '<strong>Reply to this message with your contract address</strong>', { parse_mode: 'HTML' }).then((sended) => {
             const messageId = sended.message_id;
             bot.onReplyToMessage(chatId, messageId, (message) => {
-                bot.sendChatAction(chatId, 'typing');
                 eth(message.text, chatId)
+                bot.sendChatAction(chatId, 'typing');
             });
         });
     }
 });
-
-// //     const address = '0x7D1AfA7B718fb893dB30A3aBc0Cfc608AaCfeBB0';
+// //              T E S T         A D D R E S S E S
+// //         '0x7D1AfA7B718fb893dB30A3aBc0Cfc608AaCfeBB0';
 // //         "SRMuApVNdxXokk5GT7XD5cUUgXMBCoAz2LHeuAoKWRt"
