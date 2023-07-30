@@ -5,7 +5,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 const TOKEN = process.env.API_KEY; //botfather API key
 let flag = true;
-async function helper(cid){
+async function helper(cid) {
     const inlineKeyboard = {
         inline_keyboard: [[
             {
