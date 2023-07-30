@@ -1,10 +1,9 @@
 process.env["NTBA_FIX_350"] = 1;
 import TelegramBot from 'node-telegram-bot-api';
-import * as dotenv from 'dotenv'
-dotenv.config()
-const TOKEN = process.env.API_KEY //botfather api
-console.log("OK")
 import fetch from 'node-fetch';
+import dotenv from 'dotenv';
+dotenv.config();
+const TOKEN = process.env.API_KEY; //botfather API key
 let flag = true;
 async function helper(cid){
     const inlineKeyboard = {
